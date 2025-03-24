@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Odin Library</title>
+    <link rel="stylesheet" href="./styles/index.css" />
+    <script src="./scripts/index.js" defer></script>
+  </head>
+  <body>
+    <div id="main">
+      <div id="add">
+        <img src="./icons/plus.svg" alt="plus_icon" width="150px" />
+      </div>
+    </div>
+    <div id="form-container">
+      <div id="close-form-button" class="close">
+        <img src="./icons/close.svg" alt="close_icon" width="32px" />
+      </div>
+      <form>
+        <div>
+          <label for="title-input">Title</label>
+          <input type="text" id="title-input" name="title" />
+        </div>
+        <div>
+          <label for="author-input">Author</label>
+          <input type="text" id="author-input" name="author" />
+        </div>
+        <div>
+          <label for="pages-input">Number of pages</label>
+          <input type="number" id="pages-input" min="1" name="pages" />
+        </div>
+        <div>
+          <p>Is it read</p>
+          <div>
+            <input type="radio" id="yes-radio" value="yes" name="read" />
+            <label for="yes-radio">Yes</label>
+          </div>
+          <div>
+            <input type="radio" id="no-radio" value="no" name="read" checked />
+            <label for="no-radio">No</label>
+          </div>
+        </div>
+        <button id="add-button" type="button">Add my book</button>
+      </form>
+    </div>
+  </body>
+</html>

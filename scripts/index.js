@@ -1,12 +1,23 @@
-const myLibrary = [];
+class Book {
+  constructor(title, author, pages, isRead) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.isRead = isRead;
+  }
 
-function Book(title, author, pages, isRead) {
-  this.id = self.crypto.randomUUID();
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.isRead = isRead;
+  #id = self.crypto.randomUUID();
+
+  get getID() {
+    return this.#id;
+  }
+
+  set setIsRead(isRead) {
+    this.isRead = isRead;
+  }
 }
+
+const myLibrary = [];
 
 const addBookToMyLibrary = (title, author, pages, isRead) => {
   myLibrary.push(new Book(title, author, pages, isRead));
@@ -77,7 +88,7 @@ const addCardsToUI = (obj) => {
   const image = document.createElement("img");
 
   card.className = "card";
-  card.id = obj.id;
+  card.id = obj.getID;
   title.textContent = obj.title;
   author.textContent = obj.author;
   pages.textContent = `${obj.pages} pages`;
@@ -111,13 +122,7 @@ const addTheAddButtonToUI = () => {
 };
 
 const handleForm = () => {
-  let isTheBookRead = null;
-
-  if (refDOM.yesRadio.checked) {
-    isTheBookRead = "read";
-  } else {
-    isTheBookRead = "not read";
-  }
+  const isTheBookRead = refDOM.yesRadio.checked ? "read" : "not read";
 
   addBookToMyLibrary(
     refDOM.titleInput.value,
@@ -141,16 +146,13 @@ const handleForm = () => {
 
   for (let i = 0; i < myLibrary.length; i++) {
     refDOM.deleteBook[i].addEventListener("click", (e) => {
-      let card = null;
-
-      if (e.target.tagName === "IMG") {
-        card = e.target.parentElement.parentElement;
-      } else {
-        card = e.target.parentElement;
-      }
+      const card =
+        e.target.tagName === "IMG"
+          ? e.target.parentElement.parentElement
+          : e.target.parentElement;
 
       for (let i = 0; i < myLibrary.length; i++) {
-        if (myLibrary[i].id === card.id) {
+        if (myLibrary[i].getID === card.id) {
           myLibrary.splice(i, 1);
         }
       }
@@ -160,12 +162,9 @@ const handleForm = () => {
 
     refDOM.readOnCard[i].addEventListener("click", (e) => {
       for (let i = 0; i < myLibrary.length; i++) {
-        if (myLibrary[i].id === e.target.parentElement.id) {
-          if (e.target.textContent === "read") {
-            myLibrary[i].isRead = "not read";
-          } else {
-            myLibrary[i].isRead = "read";
-          }
+        if (myLibrary[i].getID === e.target.parentElement.id) {
+          myLibrary[i].setIsRead =
+            e.target.textContent === "read" ? "not read" : "read";
 
           e.target.textContent = myLibrary[i].isRead;
         }
@@ -182,15 +181,11 @@ const handleFormClicks = (element) => {
     element.style.border = "none";
     element.style.backgroundColor = "#fff";
   } else if (element.id === "add-button") {
-    if (
-      refDOM.titleInput.value !== "" &&
-      refDOM.authorInput.value !== "" &&
-      refDOM.pagesInput.value !== ""
-    ) {
-      handleForm();
-    } else {
-      validateForm();
-    }
+    refDOM.titleInput.value !== "" &&
+    refDOM.authorInput.value !== "" &&
+    refDOM.pagesInput.value !== ""
+      ? handleForm()
+      : validateForm();
   } else if (element.id === "form-container") {
     element.style.display = "none";
     resetInputs();
@@ -214,14 +209,10 @@ document.addEventListener("keydown", (e) => {
     e.key === "Enter" &&
     refDOM.formContainer.style.display === "flex"
   ) {
-    if (
-      refDOM.titleInput.value !== "" &&
-      refDOM.authorInput.value !== "" &&
-      refDOM.pagesInput.value !== ""
-    ) {
-      handleForm();
-    } else {
-      validateForm();
-    }
+    refDOM.titleInput.value !== "" &&
+    refDOM.authorInput.value !== "" &&
+    refDOM.pagesInput.value !== ""
+      ? handleForm()
+      : validateForm();
   }
 });
